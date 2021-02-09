@@ -6,11 +6,11 @@
       let randomNumber = minNumber + Math.random() * (maxNumber + 1 - minNumber);
       return Math.floor(randomNumber);
     } else {
-      console.log('Ошбика ! Укажите корректные числа диапазона');
+      alert('Ошибка ! Укажите корректные числа диапазона');
     }
   }
 
-  console.log(getRandomNumber(0, 7));
+  alert(getRandomNumber(0, 7));
 
   // для решения задачи использовал информацию с сайта https://learn.javascript.ru/number
 }
@@ -23,9 +23,9 @@
       let randomNumber = minNumber + Math.random() * (maxNumber + 1 - minNumber);
       return parseFloat((randomNumber.toFixed(roundNumber)), 10);
     } else {
-      console.log('Ошбика ! Укажите корректные числа диапазона');
+      alert('Ошибка ! Укажите корректные числа диапазона');
     }
   }
 
-  console.log(generateGeoСoordinates(0, 5, 4));
+  alert(generateGeoСoordinates(1, 3, 4));
 }
