@@ -1,7 +1,7 @@
 {
   // Функция, возвращающая случайное положительное, целое число из переданного диапазона включительно. (включая ноль)
 
-  const getRandomNumber = function (minNumber, maxNumber) {
+  const getRandomNumber = (minNumber, maxNumber) => {
     if (minNumber < maxNumber) {
       let randomNumber = minNumber + Math.random() * (maxNumber + 1 - minNumber);
       return Math.floor(randomNumber);
@@ -18,7 +18,7 @@
 {
   // Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно.
 
-  const generateGeoСoordinates = function (minNumber, maxNumber, roundNumber) {
+  const generateGeoСoordinates = (minNumber, maxNumber, roundNumber) => {
     if (minNumber < maxNumber && minNumber >= 0) {
       let randomNumber = minNumber + Math.random() * (maxNumber + 1 - minNumber);
       return parseFloat((randomNumber.toFixed(roundNumber)), 10);
