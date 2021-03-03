@@ -8,8 +8,8 @@ const MAX_PRICE = 20000;
 const MIN_ROOMS = 1;
 const MAX_ROOMS = 5;
 
-const minNumberAvatar = 1;
-const maxNumberAvatar = 8;
+const MIN_NUMBER_AVATAR = 1;
+const MAX_NUMBER_AVATAR = 8;
 
 const MIN_GUESTS  = 0;
 const MAX_GUESTS  = 7;
@@ -20,6 +20,7 @@ const MAX_GEO_X = 35.70000;
 const MIN_GEO_Y = 139.70000;
 const MAX_GEO_Y = 139.80000;
 
+const ROUND_GEO_NUMBER = 5;
 
 const TITLES_OF_OFFERING = [
   'Проклятый старый дом',
@@ -33,13 +34,13 @@ const TYPES_OF_HOUSE = [
   'bungalow',
 ];
 
-const TIMES_CHECKIN_CHECKOUT = [
+const TIMES = [
   '12:00',
   '13:00',
   '14:00',
 ];
 
-const FEATURES_OF_HOUSE = [
+const FEATURES = [
   'wifi',
   'dishwasher',
   'parking',
@@ -53,7 +54,7 @@ const DESCRIPTIONS = [
   'Тепло родоного дома',
 ];
 
-const PHOTOS_OF_HOUSE = [
+const PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
@@ -85,7 +86,7 @@ const getRandomFloat = (minNumber, maxNumber, roundNumber) => {
 
 const generateAvatarAuthor = () => {
   return {
-    avatar: 'img/avatars/user0' + getRandomInteger(minNumberAvatar, maxNumberAvatar) + '.png',
+    avatar: 'img/avatars/user0' + getRandomInteger(MIN_NUMBER_AVATAR, MAX_NUMBER_AVATAR) + '.png',
   };
 }
 
@@ -110,12 +111,10 @@ const getRandomArray = (array) => {
 
 // получение координат
 
-const roundNumberGeo = 5; // знаков после запятой
-
 const getCoordinates = () => {
   return {
-    x: getRandomFloat(MIN_GEO_X, MAX_GEO_X, roundNumberGeo),
-    y: getRandomFloat(MIN_GEO_Y, MAX_GEO_Y, roundNumberGeo),
+    x: getRandomFloat(MIN_GEO_X, MAX_GEO_X, ROUND_GEO_NUMBER),
+    y: getRandomFloat(MIN_GEO_Y, MAX_GEO_Y, ROUND_GEO_NUMBER),
   };
 };
 
@@ -129,22 +128,22 @@ const createOffer = (coordinates) => {
     type: getRandomArrayElement(TYPES_OF_HOUSE),
     rooms: getRandomInteger(MIN_ROOMS,MAX_ROOMS),
     guests: getRandomInteger(MIN_GUESTS,MAX_GUESTS),
-    checkin: getRandomArrayElement(TIMES_CHECKIN_CHECKOUT),
-    checkout: getRandomArrayElement(TIMES_CHECKIN_CHECKOUT),
-    features: getRandomArray(FEATURES_OF_HOUSE),
+    checkin: getRandomArrayElement(TIMES),
+    checkout: getRandomArrayElement(TIMES),
+    features: getRandomArray(FEATURES),
     description: getRandomArrayElement(DESCRIPTIONS),
-    photos: getRandomArray(PHOTOS_OF_HOUSE),
+    photos: getRandomArray(PHOTOS),
   };
 };
 
 // генерация полноценного объявления
+const newLocation = getCoordinates();
 
 const getOffers = () => {
-  const newLocation = getCoordinates();
   return {
     author: generateAvatarAuthor(),
     location: newLocation,
-    offrer: createOffer(newLocation),
+    offer: createOffer(newLocation),
   };
 };
 
