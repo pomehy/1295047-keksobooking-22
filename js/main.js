@@ -1,67 +1,156 @@
-{
-  // Функция, возвращающая случайное положительное, целое число из переданного диапазона включительно. (включая ноль)
+'use strict';
 
-  const getRandomInteger = (minNumber, maxNumber) => {
-    if (minNumber < maxNumber) {
-      const randomInteger = minNumber + Math.random() * (maxNumber + 1 - minNumber);
-      return Math.floor(randomInteger);
-    } else {
-      alert('Ошибка ! Укажите корректные числа диапазона');
-    }
-  }
+const OBJECT_COUNT = 10;
 
-  alert(getRandomInteger(3, 5));
-}
+const MIN_PRICE = 1;
+const MAX_PRICE = 20000;
 
-{
-  // Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно.
+const MIN_ROOMS = 1;
+const MAX_ROOMS = 5;
 
-  const getRandomFloat = (minNumber, maxNumber, roundNumber) => {
-    if (minNumber < maxNumber && minNumber >= 0) {
-      const randomFloat = minNumber + Math.random() * (maxNumber + 1 - minNumber);
-      return parseFloat((randomFloat.toFixed(roundNumber)), 10);
-    } else {
-      alert('Ошибка ! Укажите корректные числа диапазона');
-    }
-  }
+const minNumberAvatar = 1;
+const maxNumberAvatar = 8;
 
-  alert(getRandomFloat(3, 7, 3));
-}
+const MIN_GUESTS  = 0;
+const MAX_GUESTS  = 7;
 
-const AVATAR_OF_AUTHOR = {
-  url: 'img/avatars/users',
-  imageFormat: '.png',
-};
+const MIN_GEO_X = 35.65000;
+const MAX_GEO_X = 35.70000;
 
-const TITLE_OF_OFFER = 'Проклятый старый дом';
-const TYPE_OF_HOUSE = ['palace', 'flat', 'house', 'bungalow'];
-const TIME_CHECKIN_CHECKOUT = ['12:00', '13:00', '14:00'];
-const FEATURES_OF_HOUSE = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-const DESCRIPTION = 'Самое страшное и тёмное место в городе';
+const MIN_GEO_Y = 139.70000;
+const MAX_GEO_Y = 139.80000;
+
+
+const TITLES_OF_OFFERING = [
+  'Проклятый старый дом',
+  'Место где свет',
+];
+
+const TYPES_OF_HOUSE = [
+  'palace',
+  'flat',
+  'house',
+  'bungalow',
+];
+
+const TIMES_CHECKIN_CHECKOUT = [
+  '12:00',
+  '13:00',
+  '14:00',
+];
+
+const FEATURES_OF_HOUSE = [
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner',
+];
+
+const DESCRIPTIONS = [
+  'В заросшем парке стоит старинный дом',
+  'Тепло родоного дома',
+];
+
 const PHOTOS_OF_HOUSE = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ];
 
+// Функция, возвращающая случайное положительное, целое число из переданного диапазона включительно. (включая ноль)
 
-/*
-Структура каждого объекта должна быть следующей:
-author, объект — описывает автора. Содержит одно поле:
-avatar, строка — адрес изображения вида img/avatars/user{{xx}}.png, где {{xx}} — это случайное число от 1 до 8 с ведущим нулём. Например, 01, 02 и т. д.
-offer, объект — содержит информацию об объявлении. Состоит из полей:
-title, строка — заголовок предложения. Придумайте самостоятельно.
-address, строка — адрес предложения. Для простоты пусть пока составляется из географических координат по маске {{location.x}}, {{location.y}}.
-price, число — стоимость. Случайное целое положительное число.
-type, строка — одно из четырёх фиксированных значений: palace, flat, house или bungalow.
-rooms, число — количество комнат. Случайное целое положительное число.
-guests, число — количество гостей, которое можно разместить. Случайное целое положительное число.
-checkin, строка — одно из трёх фиксированных значений: 12:00, 13:00 или 14:00.
-checkout, строка — одно из трёх фиксированных значений: 12:00, 13:00 или 14:00.
-features, массив строк — массив случайной длины из значений: wifi, dishwasher, parking, washer, elevator, conditioner. Значения не должны повторяться.
-description, строка — описание помещения. Придумайте самостоятельно.
-photos, массив строк — массив случайной длины из значений: http://o0.github.io/assets/images/tokyo/hotel1.jpg, http://o0.github.io/assets/images/tokyo/hotel2.jpg, http://o0.github.io/assets/images/tokyo/hotel3.jpg.
-location, объект — местоположение в виде географических координат. Состоит из двух полей:
-x, число с плавающей точкой — широта, случайное значение от 35.65000 до 35.70000
-y, число с плавающей точкой — долгота, случайное значение от 139.70000 до 139.80000
-*/
+const getRandomInteger = (minNumber, maxNumber) => {
+  if (minNumber < maxNumber) {
+    const randomInteger = minNumber + Math.random() * (maxNumber + 1 - minNumber);
+    return Math.floor(randomInteger);
+  } else {
+    return maxNumber;
+  }
+}
+
+// Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно.
+
+const getRandomFloat = (minNumber, maxNumber, roundNumber) => {
+  if (minNumber < maxNumber && minNumber >= 0) {
+    const randomFloat = minNumber + Math.random() * (maxNumber + 1 - minNumber);
+    return parseFloat((randomFloat.toFixed(roundNumber)), 10);
+  } else {
+    return maxNumber;
+  }
+}
+
+// получения аватара пользователя
+
+const generateAvatarAuthor = () => {
+  return {
+    avatar: 'img/avatars/user0' + getRandomInteger(minNumberAvatar, maxNumberAvatar) + '.png',
+  };
+}
+
+// поиск случайного элемента в переданном массиве
+
+const getRandomArrayElement = (elements) => {
+  return elements[getRandomInteger(0, elements.length - 1)];
+};
+
+// массив случайной длинны
+
+const getRandomArray = (array) => {
+  const randomLength = getRandomInteger(0, array.length - 1);
+  const arrayElements = [];
+
+  for(let i = 0; i <= randomLength; i++) {
+    arrayElements.push(array[i]);
+  }
+
+  return arrayElements;
+};
+
+// получение координат
+
+const roundNumberGeo = 5; // знаков после запятой
+
+const getCoordinates = () => {
+  return {
+    x: getRandomFloat(MIN_GEO_X, MAX_GEO_X, roundNumberGeo),
+    y: getRandomFloat(MIN_GEO_Y, MAX_GEO_Y, roundNumberGeo),
+  };
+};
+
+// информация о жилье
+
+const createOffer = (coordinates) => {
+  return {
+    title: getRandomArrayElement(TITLES_OF_OFFERING),
+    address: coordinates.x + ', ' + coordinates.y,
+    price: getRandomInteger(MIN_PRICE,MAX_PRICE),
+    type: getRandomArrayElement(TYPES_OF_HOUSE),
+    rooms: getRandomInteger(MIN_ROOMS,MAX_ROOMS),
+    guests: getRandomInteger(MIN_GUESTS,MAX_GUESTS),
+    checkin: getRandomArrayElement(TIMES_CHECKIN_CHECKOUT),
+    checkout: getRandomArrayElement(TIMES_CHECKIN_CHECKOUT),
+    features: getRandomArray(FEATURES_OF_HOUSE),
+    description: getRandomArrayElement(DESCRIPTIONS),
+    photos: getRandomArray(PHOTOS_OF_HOUSE),
+  };
+};
+
+// генерация полноценного объявления
+
+const getOffers = () => {
+  const newLocation = getCoordinates();
+  return {
+    author: generateAvatarAuthor(),
+    location: newLocation,
+    offrer: createOffer(newLocation),
+  };
+};
+
+// генерация 10 случайных объявлений (предложений)
+
+const generateObjects = new Array(OBJECT_COUNT).fill(null).map(() => getOffers());
+
+// eslint-disable-next-line no-console
+console.log(generateObjects);
