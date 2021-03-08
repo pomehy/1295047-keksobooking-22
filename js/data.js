@@ -8,7 +8,7 @@ import {
 const OBJECT_COUNT = 10;
 
 const MIN_PRICE = 1;
-const MAX_PRICE = 20000;
+const MAX_PRICE = 1000000;
 
 const MIN_ROOMS = 1;
 const MAX_ROOMS = 5;
@@ -56,7 +56,7 @@ const FEATURES = [
 
 const DESCRIPTIONS = [
   'В заросшем парке стоит старинный дом',
-  'Тепло родоного дома',
+  'Тепло родного дома',
 ];
 
 const PHOTOS = [
@@ -116,5 +116,4 @@ const getOffers = () => {
 
 const generateObjects = new Array(OBJECT_COUNT).fill(null).map(() => getOffers());
 
-// eslint-disable-next-line no-console
-console.log(generateObjects);
+export { generateObjects };
