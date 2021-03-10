@@ -16,8 +16,8 @@ const MAX_ROOMS = 5;
 const MIN_NUMBER_AVATAR = 1;
 const MAX_NUMBER_AVATAR = 8;
 
-const MIN_GUESTS  = 0;
-const MAX_GUESTS  = 7;
+const MIN_GUESTS  = 1;
+const MAX_GUESTS  = 20;
 
 const MIN_GEO_X = 35.65000;
 const MAX_GEO_X = 35.70000;
@@ -65,55 +65,46 @@ const PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ];
 
-// получения аватара пользователя
+const createOffer = () => {
+  const GEO_X = getRandomFloat(MIN_GEO_X, MAX_GEO_X, ROUND_GEO_NUMBER);
+  const GEO_Y = getRandomFloat(MIN_GEO_Y, MAX_GEO_Y, ROUND_GEO_NUMBER);
 
-const generateAvatarAuthor = () => {
   return {
-    avatar: 'img/avatars/user0' + getRandomInteger(MIN_NUMBER_AVATAR, MAX_NUMBER_AVATAR) + '.png',
-  };
+    author: {
+      avatar: 'img/avatars/user0' + getRandomInteger(MIN_NUMBER_AVATAR, MAX_NUMBER_AVATAR) + '.png',
+    },
+
+    location: {
+      x: GEO_X,
+      y: GEO_Y,
+    },
+
+    offer: {
+      title: getRandomArrayElement(TITLES_OF_OFFERING),
+      price: getRandomInteger(MIN_PRICE, MAX_PRICE),
+      type: getRandomArrayElement(TYPES_OF_HOUSE),
+      address: GEO_X + ', ' + GEO_Y,
+      rooms: getRandomInteger(MIN_ROOMS, MAX_ROOMS),
+      guests: getRandomInteger(MIN_GUESTS, MAX_GUESTS),
+      checkin: getRandomArrayElement(TIMES),
+      checkout: getRandomArrayElement(TIMES),
+      features: getRandomArray(FEATURES),
+      description: getRandomArrayElement(DESCRIPTIONS),
+      photos: getRandomArray(PHOTOS),
+    },
+  }
 }
 
+const generateObjects = (count) => {
+  return new Array(count).fill(null).map(() => createOffer());
+}
 
-// получение координат
+const offers = generateObjects(OBJECT_COUNT);
 
-const getCoordinates = () => {
-  return {
-    x: getRandomFloat(MIN_GEO_X, MAX_GEO_X, ROUND_GEO_NUMBER),
-    y: getRandomFloat(MIN_GEO_Y, MAX_GEO_Y, ROUND_GEO_NUMBER),
-  };
+// eslint-disable-next-line no-console
+console.log(offers);
+
+export {
+  offers,
+  ROUND_GEO_NUMBER
 };
-
-// информация о жилье
-
-const createOffer = (coordinates) => {
-  return {
-    title: getRandomArrayElement(TITLES_OF_OFFERING),
-    address: coordinates.x + ', ' + coordinates.y,
-    price: getRandomInteger(MIN_PRICE,MAX_PRICE),
-    type: getRandomArrayElement(TYPES_OF_HOUSE),
-    rooms: getRandomInteger(MIN_ROOMS,MAX_ROOMS),
-    guests: getRandomInteger(MIN_GUESTS,MAX_GUESTS),
-    checkin: getRandomArrayElement(TIMES),
-    checkout: getRandomArrayElement(TIMES),
-    features: getRandomArray(FEATURES),
-    description: getRandomArrayElement(DESCRIPTIONS),
-    photos: getRandomArray(PHOTOS),
-  };
-};
-
-// генерация полноценного объявления
-const newLocation = getCoordinates();
-
-const getOffers = () => {
-  return {
-    author: generateAvatarAuthor(),
-    location: newLocation,
-    offer: createOffer(newLocation),
-  };
-};
-
-// генерация 10 случайных объявлений (предложений)
-
-const generateObjects = new Array(OBJECT_COUNT).fill(null).map(() => getOffers());
-
-export { generateObjects };

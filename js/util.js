@@ -14,8 +14,7 @@ const getRandomInteger = (minNumber, maxNumber) => {
 
 const getRandomFloat = (minNumber, maxNumber, roundNumber) => {
   if (minNumber < maxNumber && minNumber >= 0) {
-    const randomFloat = minNumber + Math.random() * (maxNumber + 1 - minNumber);
-    return parseFloat((randomFloat.toFixed(roundNumber)), 10);
+    return parseFloat((Math.random() * (minNumber - maxNumber) + maxNumber).toFixed(roundNumber));
   } else {
     return maxNumber;
   }

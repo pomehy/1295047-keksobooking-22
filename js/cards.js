@@ -1,5 +1,3 @@
-import { generateObjects } from './data.js'
-
 import {
   getOfferType,
   getGuestsNumber,
@@ -10,10 +8,7 @@ const IMG_WIDTH = 45;
 const IMG_HEIGHT = 40;
 const IMG_ALT = 'Фотография жилья';
 
-const mapCanvas = document.querySelector('#map-canvas');
-const cardTemplate = document.querySelector('#card').content;
-
-const cardFragment = document.createDocumentFragment();
+const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const createFeatureItem = (item) => {
   const featureItem = document.createElement('li');
@@ -40,7 +35,7 @@ const createAndCompleteFragment = (array, render) => {
   return fragment;
 }
 
-const showPopup = ({offer, author}) => {
+const createCardElement = ({offer, author}) => {
   const cardElement = cardTemplate.cloneNode(true);
   const featuresItem = cardElement.querySelector('.popup__features');
   const photosContainer = cardElement.querySelector('.popup__photos');
@@ -69,7 +64,6 @@ const showPopup = ({offer, author}) => {
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + offer.checkin + ', выезд до ' + offer.checkout;
   }
 
-
   featuresItem.innerHTML = '';
   featuresItem.appendChild(createAndCompleteFragment(offer.features, createFeatureItem));
 
@@ -84,8 +78,6 @@ const showPopup = ({offer, author}) => {
     cardElement.querySelector('.popup__avatar').src = author.avatar;
   }
 
-  cardFragment.appendChild(cardElement);
-  mapCanvas.appendChild(cardFragment);
+  return cardElement;
 };
-
-showPopup(generateObjects[0]);
+export { createCardElement };
