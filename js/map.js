@@ -5,6 +5,10 @@ import {
   fillAddress
 } from './form.js';
 
+import { offers } from './data.js';
+
+import { createCardElement } from './cards.js';
+
 const STARTING_LATITUDE = 35.6804;
 const STARTING_LONGITUDE = 139.7690;
 const STARING_ZOOM = 12;
@@ -50,4 +54,34 @@ mainPinMarker.on('moveend', (evt) => {
     long: evt.target.getLatLng().lng,
   }
   fillAddress(address);
+});
+
+offers.forEach(({author, location, offer}) => {
+  const icon = L.icon({
+    iconUrl: 'img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  });
+
+  const lat = location.x;
+  const lng = location.y;
+
+  const marker = L.marker(
+    {
+      lat,
+      lng,
+    },
+    {
+      icon,
+    },
+  );
+
+  marker
+    .addTo(map)
+    .bindPopup(
+      createCardElement({author, offer}),
+      {
+        keepInView: true,
+      },
+    );
 });
