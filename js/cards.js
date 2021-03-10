@@ -80,5 +80,4 @@ const createCardElement = ({offer, author}) => {
 
   return cardElement;
 };
-
 export { createCardElement };
