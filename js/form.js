@@ -3,10 +3,17 @@ import { ROUND_GEO_NUMBER } from './data.js';
 const adForm = document.querySelector('.ad-form');
 const typeOfHouseForm = adForm.querySelector('#type');
 const priceForm = adForm.querySelector('#price');
+const titleOffer = adForm.querySelector('#title');
 const timeInForm = adForm.querySelector('#timein');
 const timeOutForm = adForm.querySelector('#timeout');
 const addressForm = adForm.querySelector('#address');
 const mapFilters = document.querySelector('.map__filters');
+const roomNumber = document.querySelector('#room_number');
+const selectGuests = document.querySelector('#capacity');
+const numberGuests = selectGuests.children;
+
+const MIN_TITLE_LENGTH = 30;
+const MAX_TITLE_LENGTH = 100;
 
 const TYPE_MIN_PRICES = {
   bungalow: 0,
@@ -19,6 +26,20 @@ const DEFAULT_PRICE = 1000;
 
 priceForm.placeholder = DEFAULT_PRICE;
 priceForm.setAttribute('min', priceForm.placeholder)
+
+titleOffer.addEventListener('input', () => {
+  const valueLength = titleOffer.value.length;
+
+  if (valueLength < MIN_TITLE_LENGTH) {
+    titleOffer.setCustomValidity('Минимум 30 символов. Добавьте ' + (MIN_TITLE_LENGTH - valueLength) + ' симв.');
+  } else if (valueLength > MAX_TITLE_LENGTH) {
+    titleOffer.setCustomValidity('Максимум 100 символов. Удалите ' + (valueLength - MAX_TITLE_LENGTH) + ' симв.');
+  } else {
+    titleOffer.setCustomValidity('');
+  }
+
+  titleOffer.reportValidity();
+});
 
 const disableMapForm = () => {
   adForm.classList.add('ad-form--disabled');
@@ -81,6 +102,40 @@ timeOutForm.addEventListener('change', (evt) => {
 timeInForm.addEventListener('change', (evt) => {
   timeOutForm.value = evt.target.value;
 });
+
+const resetFieldGuest = () => {
+  for (let element of numberGuests) {
+    if (!(parseInt(element.value)===1)){
+      element.toggleAttribute('disabled', true);
+    }
+  }
+}
+
+resetFieldGuest();
+
+roomNumber.addEventListener('change', () => {
+  resetFieldGuest();
+  numberGuests[2].toggleAttribute('disabled', true);
+
+  switch(parseInt(roomNumber.value)){
+    case 3:
+      numberGuests[0].toggleAttribute('disabled', false);
+    // eslint-disable-next-line no-fallthrough
+    case 2:
+      numberGuests[1].toggleAttribute('disabled', false);
+      // eslint-disable-next-line no-fallthrough
+    case 1:
+      numberGuests[2].toggleAttribute('disabled', false);
+      selectGuests.value = numberGuests[2].value;
+      break;
+
+    case 100:
+      numberGuests[3].toggleAttribute('disabled', false);
+      selectGuests.value = numberGuests[3].value;
+      break;
+  }
+});
+
 
 export {
   disableMapForm,
