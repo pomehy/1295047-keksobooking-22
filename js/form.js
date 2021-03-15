@@ -22,6 +22,13 @@ const TYPE_MIN_PRICES = {
   palace: 10000,
 };
 
+const ROOMS_VALUE = {
+  roomOne: 1,
+  roomTwo: 2,
+  roomThree: 3,
+  roomHundred: 100,
+};
+
 const DEFAULT_PRICE = 1000;
 
 priceForm.placeholder = DEFAULT_PRICE;
@@ -118,18 +125,18 @@ roomNumber.addEventListener('change', () => {
   numberGuests[2].toggleAttribute('disabled', true);
 
   switch(parseInt(roomNumber.value)){
-    case 3:
+    case ROOMS_VALUE.roomThree:
       numberGuests[0].toggleAttribute('disabled', false);
     // eslint-disable-next-line no-fallthrough
-    case 2:
+    case ROOMS_VALUE.roomTwo:
       numberGuests[1].toggleAttribute('disabled', false);
       // eslint-disable-next-line no-fallthrough
-    case 1:
+    case ROOMS_VALUE.roomOne:
       numberGuests[2].toggleAttribute('disabled', false);
       selectGuests.value = numberGuests[2].value;
       break;
 
-    case 100:
+    case ROOMS_VALUE.roomHundred:
       numberGuests[3].toggleAttribute('disabled', false);
       selectGuests.value = numberGuests[3].value;
       break;
