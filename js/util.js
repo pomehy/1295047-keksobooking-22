@@ -1,37 +1,5 @@
 const ALERT_SHOW_TIME = 5000;
 
-const getRandomInteger = (minNumber, maxNumber) => {
-  if (minNumber < maxNumber) {
-    const randomInteger = minNumber + Math.random() * (maxNumber + 1 - minNumber);
-    return Math.floor(randomInteger);
-  } else {
-    return maxNumber;
-  }
-};
-
-const getRandomFloat = (minNumber, maxNumber, roundNumber) => {
-  if (minNumber < maxNumber && minNumber >= 0) {
-    return parseFloat((Math.random() * (minNumber - maxNumber) + maxNumber).toFixed(roundNumber));
-  } else {
-    return maxNumber;
-  }
-};
-
-const getRandomArrayElement = (elements) => {
-  return elements[getRandomInteger(0, elements.length - 1)];
-};
-
-const getRandomArray = (array) => {
-  const randomLength = getRandomInteger(0, array.length - 1);
-  const arrayElements = [];
-
-  for(let i = 0; i <= randomLength; i++) {
-    arrayElements.push(array[i]);
-  }
-
-  return arrayElements;
-};
-
 const getOfferType = (type) => {
   const offers = {
     flat: 'Квартрира',
@@ -82,10 +50,6 @@ const isEscEvent = (evt) => {
 };
 
 export {
-  getRandomInteger,
-  getRandomFloat,
-  getRandomArrayElement,
-  getRandomArray,
   getOfferType,
   getGuestsNumber,
   getRoomsNumber,
