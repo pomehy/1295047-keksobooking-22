@@ -1,19 +1,24 @@
 import { ROUND_GEO_NUMBER } from './data.js';
-
-const adForm = document.querySelector('.ad-form');
-const typeOfHouseForm = adForm.querySelector('#type');
-const priceForm = adForm.querySelector('#price');
-const titleOffer = adForm.querySelector('#title');
-const timeInForm = adForm.querySelector('#timein');
-const timeOutForm = adForm.querySelector('#timeout');
-const addressForm = adForm.querySelector('#address');
-const mapFilters = document.querySelector('.map__filters');
-const roomNumber = document.querySelector('#room_number');
-const selectGuests = document.querySelector('#capacity');
-const numberGuests = selectGuests.children;
+import { sendData } from './api.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
+const MAX_PRICE_PER_NIGHT = 1000000;
+
+const POST_URL = 'https://22.javascript.pages.academy/keksobooking';
+
+const adForm = document.querySelector('.ad-form');
+const mapFilters = document.querySelector('.map__filters');
+const addressForm = adForm.querySelector('#address');
+const typeOfHouseForm = adForm.querySelector('#type');
+const titleOffer = adForm.querySelector('#title');
+const priceForm = adForm.querySelector('#price');
+const timeInForm = adForm.querySelector('#timein');
+const timeOutForm = adForm.querySelector('#timeout');
+const roomNumber = adForm.querySelector('#room_number');
+const adFormResetButton = adForm.querySelector('.ad-form__reset');
+const selectGuests = adForm.querySelector('#capacity');
+const guestsNumber = selectGuests.children;
 
 const TYPE_MIN_PRICES = {
   bungalow: 0,
@@ -58,41 +63,36 @@ const disableMapForm = () => {
   mapFilters.classList.add('map__filters--disabled');
   mapFilters.querySelectorAll('.map__filter').forEach((filter) => {
     filter.classList.add('disabled');
+    filter.setAttribute('disabled', 'disabled');
   })
 
   mapFilters.querySelectorAll('.map__features').forEach((feature) => {
     feature.classList.add('disabled');
-  })
+    feature.setAttribute('disabled', 'disabled');
+  });
+};
 
-  // eslint-disable-next-line no-console
-  console.log('форма неактивна');
-}
+const activateMapForm = () => {
+  adForm.classList.remove('ad-form--disabled');
 
-const activateMapForm = (startingAddress) => {
-  return () => {
-    adForm.classList.remove('ad-form--disabled');
+  adForm.querySelectorAll('fieldset').forEach((fieldset) => {
+    fieldset.classList.remove('disabled');
+    fieldset.removeAttribute('disabled', 'disabled');
+  });
 
-    adForm.querySelectorAll('fieldset').forEach((fieldset) => {
-      fieldset.classList.remove('disabled');
-      fieldset.removeAttribute('disabled', 'disabled');
-    });
+  mapFilters.classList.remove('map__filters--disabled');
+  mapFilters.querySelectorAll('.map__filter').forEach((filter) => {
+    filter.classList.remove('disabled');
+    filter.removeAttribute('disabled', 'disabled');
+  });
+  mapFilters.querySelectorAll('.map__features').forEach((feature) => {
+    feature.classList.remove('disabled');
+    feature.removeAttribute('disabled', 'disabled');
+  });
+  addressForm.setAttribute('readonly', 'readonly');
+};
 
-    mapFilters.classList.remove('map__filters--disabled');
-    mapFilters.querySelectorAll('.map__filter').forEach((filter) => {
-      filter.classList.remove('disabled');
-    });
-    mapFilters.querySelectorAll('.map__features').forEach((feature) => {
-      feature.classList.remove('disabled');
-    });
-    addressForm.setAttribute('readonly', 'readonly');
-    fillAddress(startingAddress);
-
-    // eslint-disable-next-line no-console
-    console.log('форма стала активной');
-  }
-}
-
-const fillAddress = ({lat, long}) => {
+const fillAddress = (lat, long) => {
   const latitude = lat.toFixed(ROUND_GEO_NUMBER);
   const longitude = long.toFixed(ROUND_GEO_NUMBER);
   addressForm.value = latitude + ' ' + longitude;
@@ -111,41 +111,71 @@ timeInForm.addEventListener('change', (evt) => {
 });
 
 const resetFieldGuest = () => {
-  for (let element of numberGuests) {
+  for (let element of guestsNumber) {
     if (!(parseInt(element.value)===1)){
       element.toggleAttribute('disabled', true);
     }
   }
-}
+};
 
 resetFieldGuest();
 
 roomNumber.addEventListener('change', () => {
   resetFieldGuest();
-  numberGuests[2].toggleAttribute('disabled', true);
+  guestsNumber[2].toggleAttribute('disabled', true);
 
   switch(parseInt(roomNumber.value)){
     case ROOMS_VALUE.roomThree:
-      numberGuests[0].toggleAttribute('disabled', false);
+      guestsNumber[0].toggleAttribute('disabled', false);
     // eslint-disable-next-line no-fallthrough
     case ROOMS_VALUE.roomTwo:
-      numberGuests[1].toggleAttribute('disabled', false);
+      guestsNumber[1].toggleAttribute('disabled', false);
       // eslint-disable-next-line no-fallthrough
     case ROOMS_VALUE.roomOne:
-      numberGuests[2].toggleAttribute('disabled', false);
-      selectGuests.value = numberGuests[2].value;
+      guestsNumber[2].toggleAttribute('disabled', false);
+      selectGuests.value = guestsNumber[2].value;
       break;
 
     case ROOMS_VALUE.roomHundred:
-      numberGuests[3].toggleAttribute('disabled', false);
-      selectGuests.value = numberGuests[3].value;
+      guestsNumber[3].toggleAttribute('disabled', false);
+      selectGuests.value = guestsNumber[3].value;
       break;
   }
 });
 
+priceForm.addEventListener('input', () => {
+  const price = priceForm.value;
+  const type = typeOfHouseForm.value;
+  const minPrice = TYPE_MIN_PRICES[type];
+
+  if (price < minPrice) {
+    priceForm.setCustomValidity('Стоимость должна быть не менее ' + minPrice);
+  } else if (price > MAX_PRICE_PER_NIGHT) {
+    priceForm.setCustomValidity('Стоимость не должна превышать ' + MAX_PRICE_PER_NIGHT);
+  } else {
+    priceForm.setCustomValidity('');
+  }
+  priceForm.reportValidity();
+});
+
+const offerFormSubmit = (onSuccess, onError) => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      POST_URL,
+      onSuccess,
+      onError,
+      new FormData(evt.target),
+    );
+  });
+};
 
 export {
   disableMapForm,
   activateMapForm,
-  fillAddress
+  fillAddress,
+  offerFormSubmit,
+  adFormResetButton,
+  adForm
 };
