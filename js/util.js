@@ -1,3 +1,4 @@
+const ALERT_SHOW_TIME = 5000;
 
 // Функция, возвращающая случайное положительное, целое число из переданного диапазона включительно. (включая ноль)
 
@@ -70,6 +71,19 @@ const getRoomsNumber = (rooms) => {
   return rooms + ' комнат';
 }
 
+const showAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.setAttribute('style', 'position: fixed; top: 20px; right: 0; width: 100%; text-align: center; background: rgb(255 4 4); padding: 20px; color: white; z-index: 1000; ');
+
+  alertContainer.textContent = message;
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
+}
+
 export {
   getRandomInteger,
   getRandomFloat,
@@ -77,5 +91,6 @@ export {
   getRandomArray,
   getOfferType,
   getGuestsNumber,
-  getRoomsNumber
+  getRoomsNumber,
+  showAlert
 };
