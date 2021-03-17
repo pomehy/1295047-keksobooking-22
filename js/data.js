@@ -6,22 +6,22 @@ import {
 } from './util.js';
 
 const OBJECT_COUNT = 10;
+const MIN_OBJECT_COUNT = 0;
 
 const MIN_PRICE = 1;
 const MAX_PRICE = 1000000;
 
 const MIN_ROOMS = 1;
-const MAX_ROOMS = 5;
+const MAX_ROOMS = 10;
 
 const MIN_NUMBER_AVATAR = 1;
 const MAX_NUMBER_AVATAR = 8;
 
-const MIN_GUESTS  = 1;
-const MAX_GUESTS  = 20;
+const MIN_GUESTS = 1;
+const MAX_GUESTS = 20;
 
 const MIN_GEO_X = 35.65000;
 const MAX_GEO_X = 35.70000;
-
 const MIN_GEO_Y = 139.70000;
 const MAX_GEO_Y = 139.80000;
 
@@ -32,17 +32,22 @@ const TITLES_OF_OFFERING = [
   'Место где свет',
 ];
 
-const TYPES_OF_HOUSE = [
-  'palace',
-  'flat',
-  'house',
-  'bungalow',
+const DESCRIPTIONS = [
+  'В заросшем парке стоит старинный дом',
+  'Тепло родного дома',
 ];
 
 const TIMES = [
   '12:00',
   '13:00',
   '14:00',
+];
+
+const TYPES_OF_HOUSE = [
+  'palace',
+  'flat',
+  'house',
+  'bungalow',
 ];
 
 const FEATURES = [
@@ -52,11 +57,6 @@ const FEATURES = [
   'washer',
   'elevator',
   'conditioner',
-];
-
-const DESCRIPTIONS = [
-  'В заросшем парке стоит старинный дом',
-  'Тепло родного дома',
 ];
 
 const PHOTOS = [
@@ -93,18 +93,16 @@ const createOffer = () => {
       photos: getRandomArray(PHOTOS),
     },
   }
-}
+};
 
-const generateObjects = (count) => {
+const createOffers = (count) => {
   return new Array(count).fill(null).map(() => createOffer());
 }
 
-const offers = generateObjects(OBJECT_COUNT);
-
-// eslint-disable-next-line no-console
-console.log(offers);
 
 export {
-  offers,
-  ROUND_GEO_NUMBER
+  createOffers,
+  ROUND_GEO_NUMBER,
+  MIN_OBJECT_COUNT,
+  OBJECT_COUNT
 };
