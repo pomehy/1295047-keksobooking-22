@@ -1,7 +1,5 @@
 const ALERT_SHOW_TIME = 5000;
 
-// Функция, возвращающая случайное положительное, целое число из переданного диапазона включительно. (включая ноль)
-
 const getRandomInteger = (minNumber, maxNumber) => {
   if (minNumber < maxNumber) {
     const randomInteger = minNumber + Math.random() * (maxNumber + 1 - minNumber);
@@ -9,9 +7,7 @@ const getRandomInteger = (minNumber, maxNumber) => {
   } else {
     return maxNumber;
   }
-}
-
-// Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно.
+};
 
 const getRandomFloat = (minNumber, maxNumber, roundNumber) => {
   if (minNumber < maxNumber && minNumber >= 0) {
@@ -19,15 +15,11 @@ const getRandomFloat = (minNumber, maxNumber, roundNumber) => {
   } else {
     return maxNumber;
   }
-}
-
-// поиск случайного элемента в переданном массиве
+};
 
 const getRandomArrayElement = (elements) => {
   return elements[getRandomInteger(0, elements.length - 1)];
 };
-
-// массив случайной длинны
 
 const getRandomArray = (array) => {
   const randomLength = getRandomInteger(0, array.length - 1);
@@ -48,14 +40,14 @@ const getOfferType = (type) => {
     palace: 'Дворец',
   }
   return offers[type];
-}
+};
 
 const getGuestsNumber = (guests) => {
   if (guests % 10 === 1 && guests !== 11) {
     return guests + ' гостя';
   }
   return guests + ' гостей';
-}
+};
 
 const getRoomsNumber = (rooms) => {
   const remnant  = rooms % 10;
@@ -69,20 +61,25 @@ const getRoomsNumber = (rooms) => {
     return rooms + ' комнаты';
   }
   return rooms + ' комнат';
+};
+
+const showAlert = (message='Не удалось загрузить данные') => {
+  return () => {
+    const alertContainer = document.createElement('div');
+    alertContainer.setAttribute('style', 'position: fixed; top: 20px; right: 0; width: 100%; text-align: center; background: rgb(255 0 0); padding: 20px; color: white; z-index: 1000;');
+    alertContainer.textContent = message;
+
+    document.body.append(alertContainer);
+
+    setTimeout(() => {
+      alertContainer.remove();
+    }, ALERT_SHOW_TIME);
+  }
 }
 
-const showAlert = (message) => {
-  const alertContainer = document.createElement('div');
-  alertContainer.setAttribute('style', 'position: fixed; top: 20px; right: 0; width: 100%; text-align: center; background: rgb(255 4 4); padding: 20px; color: white; z-index: 1000; ');
-
-  alertContainer.textContent = message;
-
-  document.body.append(alertContainer);
-
-  setTimeout(() => {
-    alertContainer.remove();
-  }, ALERT_SHOW_TIME);
-}
+const isEscEvent = (evt) => {
+  return evt.key === 'Escape' || evt.key === 'Esc';
+};
 
 export {
   getRandomInteger,
@@ -92,5 +89,6 @@ export {
   getOfferType,
   getGuestsNumber,
   getRoomsNumber,
-  showAlert
+  showAlert,
+  isEscEvent
 };
