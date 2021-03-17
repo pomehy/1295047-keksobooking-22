@@ -79,7 +79,7 @@ const initMainPinMarker = () => {
     iconAnchor: [MAIN_POINTER_WIDTH / 2, MAIN_POINTER_WIDTH],
   });
 
-  const mainPinMarker = L.marker(
+  return L.marker(
     {
       lat: STARTING_LATITUDE,
       lng: STARTING_LONGITUDE,
@@ -89,7 +89,6 @@ const initMainPinMarker = () => {
       icon: mainPinIcon,
     },
   );
-  return mainPinMarker;
 }
 
 const mainPinMarker = initMainPinMarker();
