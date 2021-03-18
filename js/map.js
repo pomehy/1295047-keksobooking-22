@@ -12,6 +12,7 @@ const STARING_ZOOM = 9;
 
 const MAIN_POINTER_WIDTH = 52;
 const POINTER_WIDTH = 40;
+const markers = [];
 
 const map = L.map('map-canvas');
 
@@ -21,8 +22,8 @@ const onPinMove = (evt) => {
   fillAddress(lat, long);
 }
 
-const renderCards = (advertisements) => {
-  advertisements.forEach(({author, location, offer}) => {
+const renderCards = (offers) => {
+  offers.forEach(({author, location, offer}) => {
     const icon = L.icon({
       iconUrl: 'img/pin.svg',
       iconSize: [POINTER_WIDTH, POINTER_WIDTH],
@@ -48,10 +49,17 @@ const renderCards = (advertisements) => {
           keepInView: true,
         },
       );
+    markers.push(marker);
   });
+};
+
+const removeMapMarkers = () => {
+  markers.forEach((marker) => {
+    marker.remove();
+  })
 }
 
-const setUpMap = (advertisements) => {
+const setUpMap = (offers) => {
   map
     .on('load', () => {
       activateMapForm();
@@ -69,7 +77,7 @@ const setUpMap = (advertisements) => {
     },
   ).addTo(map);
 
-  renderCards(advertisements);
+  renderCards(offers);
 }
 
 const initMainPinMarker = () => {
@@ -104,5 +112,7 @@ export {
   setUpMap,
   resetMainPinMarker,
   STARTING_LATITUDE,
-  STARTING_LONGITUDE
+  STARTING_LONGITUDE,
+  renderCards,
+  removeMapMarkers
 };
