@@ -4,6 +4,10 @@ import './form.js';
 import './map.js';
 import './api.js';
 import {
+  filterOffers,
+  filterForm
+} from './filter.js';
+import {
   resetMainPinMarker,
   setUpMap,
   STARTING_LATITUDE,
@@ -35,6 +39,7 @@ import {
 const GET_URL = 'https://22.javascript.pages.academy/keksobooking/data';
 
 const setDefaults = () => {
+  filterForm.reset();
   adForm.reset();
   resetMainPinMarker();
   fillAddress(STARTING_LATITUDE, STARTING_LONGITUDE);
@@ -44,6 +49,7 @@ disableMapForm();
 
 getData(GET_URL, (offers) => {
   setUpMap(offers.slice(MIN_OBJECT_COUNT, OBJECT_COUNT));
+  filterOffers(offers);
 }, showAlert('Не удалось загрузить объявления'))
 
 offerFormSubmit(() => {
