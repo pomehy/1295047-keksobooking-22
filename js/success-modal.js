@@ -11,7 +11,7 @@ document.body.append(errorModal);
 
 const closeModal = (modal) => {
   modal.classList.add('hidden');
-  modal.removeEventListener('keydown', onPopupEscKeydown(modal));
+  document.removeEventListener('keydown', onPopupEscKeydown(modal));
   modal.removeEventListener('click', onClick(modal));
 }
 
@@ -37,16 +37,16 @@ const onClick = (modal) => {
 const showSuccessModal = () => {
   successModal.classList.remove('hidden');
   successModal.style.zIndex = '10000';
-  successModal.addEventListener('keydown', onPopupEscKeydown(successModal));
+  document.addEventListener('keydown', onPopupEscKeydown(successModal));
   successModal.addEventListener('click', onClick(successModal));
 }
 
 const showErrorModal = () => {
   errorModal.classList.remove('hidden');
   errorModal.style.zIndex = '10000';
-  errorModal.addEventListener('keydown', onPopupEscKeydown(errorModal));
+  document.addEventListener('keydown', onPopupEscKeydown(errorModal));
   errorModal.addEventListener('click', onClick(errorModal));
   tryAgainButton.addEventListener('click', onClick(errorModal));
 }
 
-export { showSuccessModal, closeModal, showErrorModal };
+export { showSuccessModal, showErrorModal };
