@@ -2,7 +2,7 @@ import {
   getOfferType,
   getGuestsNumber,
   getRoomsNumber
-} from './util.js'
+} from './util.js';
 
 const IMG_WIDTH = 45;
 const IMG_HEIGHT = 40;
@@ -15,7 +15,7 @@ const createFeatureItem = (item) => {
   featureItem.classList.add('popup__feature');
   featureItem.classList.add('popup__feature--' + item);
   return featureItem;
-}
+};
 
 const createPhotoElement = (item) => {
   const photoItem = document.createElement('img');
@@ -25,7 +25,7 @@ const createPhotoElement = (item) => {
   photoItem.classList.add('popup__photo');
   photoItem.alt = IMG_ALT;
   return photoItem;
-}
+};
 
 const createAndCompleteFragment = (array, render) => {
   const fragment = document.createDocumentFragment();
@@ -33,9 +33,10 @@ const createAndCompleteFragment = (array, render) => {
     fragment.appendChild(render(item));
   });
   return fragment;
-}
+};
 
-const createCardElement = ({offer, author}) => {
+
+const createCardElement = (({author, offer}) => {
   const cardElement = cardTemplate.cloneNode(true);
   const featuresItem = cardElement.querySelector('.popup__features');
   const photosContainer = cardElement.querySelector('.popup__photos');
@@ -79,5 +80,6 @@ const createCardElement = ({offer, author}) => {
   }
 
   return cardElement;
-};
+});
+
 export { createCardElement };
