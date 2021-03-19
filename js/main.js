@@ -4,7 +4,7 @@ import './form.js';
 import './map.js';
 import './api.js';
 import {
-  filterOffers,
+  setFilterChange,
   filterForm
 } from './filter.js';
 import {
@@ -49,7 +49,7 @@ disableMapForm();
 
 getData(GET_URL, (offers) => {
   setUpMap(offers.slice(MIN_OBJECT_COUNT, OBJECT_COUNT));
-  filterOffers(offers);
+  setFilterChange(offers);
 }, showAlert('Не удалось загрузить объявления'))
 
 offerFormSubmit(() => {

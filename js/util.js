@@ -49,10 +49,18 @@ const isEscEvent = (evt) => {
   return evt.key === 'Escape' || evt.key === 'Esc';
 };
 
+const debounce = (cb, timeout) => {
+  return function () {
+    clearTimeout();
+    setTimeout(() => cb.apply(this, arguments), timeout);
+  }
+}
+
 export {
   getOfferType,
   getGuestsNumber,
   getRoomsNumber,
   showAlert,
-  isEscEvent
+  isEscEvent,
+  debounce
 };
