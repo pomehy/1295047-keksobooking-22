@@ -2,6 +2,8 @@ import { removeMapMarkers, renderCards } from './map.js';
 import { debounce } from './util.js';
 
 const RERENDER_DELAY = 500;
+const LOW_PRICE = 10000;
+const HIGH_PRICE = 50000;
 
 const filterForm = document.querySelector('.map__filters');
 const housingTypeSelect = filterForm.querySelector('#housing-type');
@@ -15,8 +17,6 @@ const checkType = (advertisement, element) => {
 };
 
 const checkPrice = (advertisement, element) => {
-  const LOW_PRICE = 10000;
-  const HIGH_PRICE = 50000;
   switch (element.value) {
     case 'any':
       return true;
@@ -29,18 +29,18 @@ const checkPrice = (advertisement, element) => {
     default:
       return false;
   }
-}
+};
 
 const checkRooms = (advertisement, element) => {
   return element.value === 'any' || Number(element.value) === advertisement.offer.rooms;
-}
+};
 
 const checkGuests = (advertisement, element) => {
   if (element.value === 'any') {
     return true;
   }
   return parseInt(element.value, 10) <= advertisement.offer.guests;
-}
+};
 
 const checkFeatures = (advertisement) => {
   const checkedFeatures = filterForm.querySelectorAll('.map__checkbox:checked');
@@ -52,10 +52,10 @@ const checkFeatures = (advertisement) => {
   })
 
   return count === checkedFeatures.length;
-}
+};
 
 const getFilteredAds = (advertisements) => {
-  const filteredAdvertisements = advertisements.filter((advertisement) => {
+  return advertisements.filter((advertisement) => {
     return (
       checkType(advertisement, housingTypeSelect) &&
       checkPrice(advertisement, housingPriceSelect) &&
@@ -63,9 +63,8 @@ const getFilteredAds = (advertisements) => {
       checkGuests(advertisement, housingGuestsSelect) &&
       checkFeatures(advertisement)
     )
-  })
-  return filteredAdvertisements;
-}
+  });
+};
 
 const onFilterChange = (advertisements) => {
   return debounce((evt) => {
@@ -74,7 +73,7 @@ const onFilterChange = (advertisements) => {
     removeMapMarkers();
     renderCards(filteredAdds);
   }, RERENDER_DELAY);
-}
+};
 
 const setFilterChange = (advertisements) => {
   filterForm.addEventListener('change', onFilterChange(advertisements));
@@ -83,4 +82,4 @@ const setFilterChange = (advertisements) => {
 export {
   filterForm,
   setFilterChange
-}
+};
